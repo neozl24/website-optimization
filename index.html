@@ -8,10 +8,10 @@
     <meta name="author" content="Zhong Li">
     <title>Cameron Pittman: Portfolio</title>
 
-    <!-- 嗯，web 字体对速度的影响有多大呢？测量一下吧 -->
-    <link id="font-css" href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" media="none">
+    <!-- web 字体对速度的影响有多大呢？本机测试大概有 300毫秒的延时 -->
+    <link id="font-css" href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" media="print">
 
-    <link id="default-css" href="css/style.css" rel="stylesheet" media="none">
+    <link id="default-css" href="css/style.css" rel="stylesheet" media="print">
     <link href="css/print.css" rel="stylesheet" media="print">
 
     <script>
@@ -36,18 +36,10 @@
                 fontCss.media = 'all';
                 defaultCss.media = 'all';
             }
-
-            // var linkFont = document.createElement('link');
-            // linkFont.attr('href', '//fonts.googleapis.com/css?family=Open+Sans:400,700');
-            // linkFont.attr('rel', 'stylesheet');
-            // head.appendChild(linkFont);
-
-            // var linkStyle = document.createElement('link');
-            // linkStyle.attr('href', 'css/style.css');
-            // linkStyle.attr('rel', 'stylesheet');
-            // head.appendChild(linkStyle);
         };
     </script>
+
+    <!-- 原代码下面用了http协议，但是github page上默认是https协议，这里把http去掉了 -->
     <script async src="//www.google-analytics.com/analytics.js"></script>
     <script async src="js/perfmatters.js"></script>
 </head>
