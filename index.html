@@ -9,9 +9,10 @@
     <title>Cameron Pittman: Portfolio</title>
 
     <!-- web 字体对速度的影响有多大呢？本机测试大概有 300毫秒的延时 -->
-    <link id="font-css" href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" media="print">
+    <!-- 先让浏览器自己下载这两个css文件，但是不阻塞渲染，因为我们设置了 media="none"，之后用js控制它们的使用 -->
+    <link id="font-css" href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" media="none">
+    <link id="default-css" href="css/style.css" rel="stylesheet" media="none">
 
-    <link id="default-css" href="css/style.css" rel="stylesheet" media="print">
     <link href="css/print.css" rel="stylesheet" media="print">
 
     <script>
@@ -24,10 +25,11 @@
                 w[g].l = 1 * new Date();
             })(window, 'ga');
 
-            // 可选 TODO: 用你的 Google Analytics ID 替换它
-            ga('create', 'UA-XXXX-Y');
+            // 可选: 用你的 Google Analytics ID 替换它 (Done)
+            ga('create', 'UA-96437024-1');
             ga('send', 'pageview');
 
+            // 在整个资源都下载完毕后，再将其 media设置为 all，不过会强制reflow一次，没办法，为了90分。。
             var head = document.getElementsByTagName('head')[0];
             if (head) {
                 var fontCss = document.getElementById('font-css');
