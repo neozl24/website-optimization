@@ -11,6 +11,10 @@
     <!-- web 字体对速度的影响有多大呢？本机测试大概有 300毫秒的延时 -->
     <!-- 先让浏览器自己下载css文件，但是不阻塞渲染，因为我们设置了 media="none"，之后用js控制其使用 -->
     <link id="font-css" href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" media="none">
+
+    <!-- 有意思的是，上面的这个方法在PageSpeedInsights上只对移动设备有效，
+        对桌面设备的检测来说依旧属于阻塞渲染，没有办法，只能使用 inline CSS
+        为了那么一点点的加载速度，牺牲掉一些代码的重用性，这样才能过90分。。。 -->
     <!-- <link id="default-css" href="css/style.css" rel="stylesheet" media="none"> -->
 
     <style>
@@ -81,7 +85,7 @@
             ga('create', 'UA-96437024-1');
             ga('send', 'pageview');
 
-            // 在整个资源都下载完毕后，再将其 media设置为 all，不过会强制reflow一次，没办法，为了90分。。
+            // 在整个资源都下载完毕后，再将css的 media设置为 all，不过会强制reflow一次
             var head = document.getElementsByTagName('head')[0];
             if (head) {
                 var fontCss = document.getElementById('font-css');

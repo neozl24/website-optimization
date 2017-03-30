@@ -18,6 +18,12 @@
   "homepage": "https://github.com/neozl24/website-optimization#readme",
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-htmlmin": "^3.0.0"
+    "gulp-concat": "^2.6.1",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.1.2",
+    "jshint": "^2.9.4"
   }
 }
