@@ -467,10 +467,13 @@ var resizePizzas = function(size) {
 
     // 遍历披萨的元素并改变它们的宽度
     function changePizzaSizes(size) {
-        for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-            var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-            var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-            document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+        // 下面这几个值在循环中都是不会变的，因此提前拿出来，避免造成 FSL
+        var allPizzaContainers = document.querySelectorAll(".randomPizzaContainer");
+        var pizzaContainerWidth = allPizzaContainers[0].offsetWidth;
+        var dx = determineDx(allPizzaContainers[0], size);
+        var newwidth = (pizzaContainerWidth + dx) + 'px';
+        for (var i = 0; i < allPizzaContainers.length; i++) {
+            allPizzaContainers[i].style.width = newwidth;
         }
     }
 
@@ -553,7 +556,11 @@ document.addEventListener('DOMContentLoaded', function() {
         elem.style.width = "73.333px";
         elem.basicLeft = (i % cols) * s;
         elem.style.top = (Math.floor(i / cols) * s) + 'px';
+
+        // 有了下面这一行，就初始化了横坐标，并且不用在后面调用updatePositions这个函数了
+        elem.style.left = 100 * Math.sin(i % 5) + 'px';
         document.querySelector("#movingPizzas1").appendChild(elem);
     }
-    updatePositions();
+    // 在这里是执行下面这个函数，会造成一次reflow，因为已经生成好的元素，你又去改了人家的横坐标
+    // updatePositions();
 });
