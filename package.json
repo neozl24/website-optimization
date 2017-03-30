@@ -1,0 +1,23 @@
+{
+  "name": "website-optimization",
+  "version": "1.0.0",
+  "description": "Optimize the website given by Udacity to gain more than 90 scores in PageSpeedInsights",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neozl24/website-optimization.git"
+  },
+  "author": "Zhong Li",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/neozl24/website-optimization/issues"
+  },
+  "homepage": "https://github.com/neozl24/website-optimization#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-htmlmin": "^3.0.0"
+  }
+}
