@@ -561,6 +561,6 @@ document.addEventListener('DOMContentLoaded', function() {
         elem.style.left = 100 * Math.sin(i % 5) + 'px';
         document.querySelector("#movingPizzas1").appendChild(elem);
     }
-    // 在这里是执行下面这个函数，会造成一次reflow，因为已经生成好的元素，你又去改了人家的横坐标
+    // 在这里执行下面这个函数，会造成一次reflow，因为已经生成好的元素，你又去改了人家的横坐标
     // updatePositions();
 });
