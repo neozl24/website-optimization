@@ -1,57 +1,60 @@
-## 网站性能优化项目
+# Website Performance Optimization
 
-你要做的是尽可能优化这个在线项目的速度。注意，请应用你之前在[网站性能优化课程](https://cn.udacity.com/course/website-performance-optimization--ud884/)中学习的技术来优化关键渲染路径并使这个页面尽可能快的渲染。
+This project is to optimize a website so as its [homepage](https://neozl24.github.io/website-optimization/) will score more than 90 in [Google PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/) and the [pizza page](https://neozl24.github.io/website-optimization/views/pizza.html) can animate over 60 FPS with user interaction.
 
-开始前，请导出这个代码库并检查代码。
+This is the [pre-optimized version](http://cameronwp.github.io/udportfolio/), provided by Udacity course developer Cameron Pittman.
 
-### 指南
 
-####Part 1: 优化 index.html 的 PageSpeed Insights 得分
+### Getting Started
 
-以下是几个帮助你顺利开始本项目的提示：
-
-1. 将这个代码库导出
-2. 你可以运行一个本地服务器，以便在你的手机上检查这个站点
-
-```bash
-  $> cd /你的工程目录
-  $> python -m SimpleHTTPServer 8080
+Clone the Github repository and switch to this directory
+```
+$ git clone https://github.com/neozl24/website-optimization.git
+$ cd website-optimization
 ```
 
-1. 打开浏览器，访问 localhost:8080
-2. 下载 [ngrok](https://ngrok.com/) 并将其安装在你的工程根目录下，让你的本地服务器能够被远程访问。
-
-``` bash
-  $> cd /你的工程目录
-  $> ./ngrok http 8080
+You can optionally install the dev-dependent modules according to *package.json*
+```
+$ npm install
+```
+With the help of *gulpfile.js* and the *node_modules* you just installed, one command line of `gulp` would generate some minified code resource for replacing in case you try to further enhance the site performance
+```
+$ gulp
 ```
 
-1. 复制ngrok提供给你的公共URL，然后尝试通过PageSpeed Insights访问它吧！可选阅读：[更多关于整合ngrok、Grunt和PageSpeed的信息](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)。
+Besides, you'd better have downloaded `python` so as to load website on local server:
+```
+$ python -m SimpleHTTPServer 8080
+```
 
-接下来，你可以一遍又一遍的进行配置、优化、检测了！祝你好运！
+Type `127.0.0.1:8080` in the browser address bar, you'll see home index page waving its hand.
 
-----
+There's one last thing before you can test your site on [Google PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/). That is exposing your website on a public URL and the [ngrok](https://ngrok.com/) tool is aimed to do this. [Download](https://ngrok.com/download) it, unzip it, move it to the root directory and use the command line:
+```
+$ ngrok 8080
+```
+A secure public URL will be created although it seems a little bit strange and you're now able to visit the site by typing this URL in your browser, just like the other normal sites.
 
-####Part 2: 优化 pizza.html 的 FPS（每秒帧数）
 
-你需要编辑 views/js/main.js 来优化 views/pizza.html，直到这个网页的 FPS 达到或超过 60fps。你会在 main.js 中找到一些对此有帮助的注释。
+### What I have done for Optimization
 
-你可以在 Chrome 开发者工具帮助中找到关于 FPS 计数器和 HUD 显示的有用信息。[Chrome 开发者工具帮助](https://developer.chrome.com/devtools/docs/tips-and-tricks).
+* For index.html in root directory:
+    1. Make the content of *css/style.css* inline-css
+    2. Add media query for *web font stylesheet* and the *css/print.css* so they won't block initial rendering
+    3. Load js files asynchronously to avoid blocking html parsing
+    4. Execute js in `window.onload` event and turn *web font stylesheet* to **media 'all'** in order to apply it at that time
+    5. minify the image files, especially the pizza image
 
-### 一些关于优化的提示与诀窍
-* [web 性能优化](https://developers.google.com/web/fundamentals/performance/ "web 性能")
-* [分析关键渲染路径](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/analyzing-crp.html "分析关键渲染路径")
-* [优化关键渲染路径](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/optimizing-critical-rendering-path.html "优化关键渲染路径！")
-* [避免 CSS 渲染阻塞](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css.html "css渲染阻塞")
-* [优化 JavaScript](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript.html "javascript")
-* [通过 Navigation Timing 进行检测](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/measure-crp.html "nav timing api")。在前两个课程中我们没有学习 Navigation Timing API，但它对于自动分析页面性能是一个非常有用的工具。我强烈推荐你阅读它。
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads.html">下载量越少，性能越好</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer.html">减少文本的大小</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization.html">优化图片</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching.html">HTTP缓存</a>
+* For the pizza page animation fps, I make changes below to *views/js/main.js*:
+    1. In the very last of the js file, when `addEventListener` of `DOMContentLoaded`, I cancel the `updatePositions()` function, in order to avoid the reflow of the page. Instead, I assign the elem.style.left in the for loop.
+    2. Inside the `updatePositions()` function, I get the value of `document.body.scrollTop` and assign it to a new variable `bodyScrollTop`, for recalculating the unchanged layout value in for-loop is such a waste and will even cause **Forced Synchronized Layout(FSL)**, which is a bad thing in browser rendering work.
+    3. For the same reason in `changePizzaSizes()` function, I take the heavy repeating work outside the for-loop and once again, I help the browser get rid of **FSL** nightmare.
 
-### 使用 Bootstrap 并定制样式
-这个项目基于 Twitter 旗下的 <a href="http://getbootstrap.com/">Bootstrap框架</a> 制作。所有的定制样式都在项目代码库的 `dist/css/portfolio.css` 中。
 
-* <a href="http://getbootstrap.com/css/">Bootstrap CSS</a>
-* <a href="http://getbootstrap.com/components/">Bootstrap组件</a>
+### Authors
+
+* **Zhong Li** - *Initial work* - [neozl24](https://github.com/neozl24)
+
+### License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
