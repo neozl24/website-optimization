@@ -447,7 +447,7 @@ var resizePizzas = function(size) {
     function determineDx(elem, size) {
         var oldWidth = elem.offsetWidth;
         // var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
-        var windowWidth = document.getElementById("randomPizzas").offsetWidth;
+        var windowWidth = document.getElementById('randomPizzas').offsetWidth;
         var oldSize = oldWidth / windowWidth;
 
         // 将值转成百分比宽度
@@ -474,7 +474,7 @@ var resizePizzas = function(size) {
     function changePizzaSizes(size) {
         // 下面这几个值在循环中都是不会变的，因此提前拿出来，避免造成 FSL
         // var allPizzaContainers = document.querySelectorAll(".randomPizzaContainer");
-        var allPizzaContainers = document.getELementsByClassName('randomPizzaContainer');
+        var allPizzaContainers = document.getElementsByClassName('randomPizzaContainer');
         var pizzaContainerWidth = allPizzaContainers[0].offsetWidth;
         var dx = determineDx(allPizzaContainers[0], size);
         var newwidth = (pizzaContainerWidth + dx) + 'px';
@@ -529,13 +529,17 @@ function updatePositions() {
     window.performance.mark("mark_start_frame");
 
     // var items = document.querySelectorAll('.mover');
-    var items = document.getELementsByClassName('mover');
+    var items = document.getElementsByClassName('mover');
 
     //这个值在下面的循环中不会有变化，因此提前求出来，避免造成 FSL
     var bodyScrollTop = document.body.scrollTop;
     for (var i = 0; i < items.length; i++) {
         var phase = Math.sin(bodyScrollTop / 1250 + i % 5);
-        items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+
+        // 这里的使用 left 属性改变位置会强制 layout 重新描绘布局(paint)的，
+        // 可以考虑使用 translateX 让 item 移动，避免重新描绘 (paint)
+        // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+        items[i].style.transform = "translateX(" + 100 * phase + "px)";
     }
 
     // 再次使用User Timing API。这很值得学习
