@@ -552,8 +552,12 @@ function updatePositions() {
     }
 }
 
-// 在页面滚动时运行updatePositions函数
-window.addEventListener('scroll', updatePositions);
+// 在页面滚动时运行updatePositions函数，而这里也正是requestAnimationFrame()的用武之地
+// window.addEventListener('scroll', updatePositions);
+window.addEventListener('scroll', requestUpdate);
+function requestUpdate() {
+    requestAnimationFrame(updatePositions);
+}
 
 // 当页面加载时生成披萨滑窗
 document.addEventListener('DOMContentLoaded', function() {
