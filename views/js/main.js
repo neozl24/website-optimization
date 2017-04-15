@@ -494,11 +494,13 @@ var resizePizzas = function(size) {
 
 window.performance.mark("mark_start_generating"); // 收集timing数据
 
-// 这个for循环在页面加载时创建并插入了所有的披萨
+// 这个for循环在页面加载时创建并插入了所有的披萨，这里依然用到 documentFragment
+var pizzasDiv = document.getElementById("randomPizzas");
+var pizzaElementsFragment = document.createDocumentFragment();
 for (var i = 2; i < 100; i++) {
-    var pizzasDiv = document.getElementById("randomPizzas");
-    pizzasDiv.appendChild(pizzaElementGenerator(i));
+    pizzaElementsFragment.appendChild(pizzaElementGenerator(i));
 }
+pizzasDiv.appendChild(pizzaElementsFragment);
 
 // 使用User Timing API。这里的测量数据告诉了你生成初始的披萨用了多长时间
 window.performance.mark("mark_end_generating");
@@ -563,6 +565,11 @@ function requestUpdate() {
 document.addEventListener('DOMContentLoaded', function() {
     var cols = 8;
     var s = 256;
+
+    var movingPizzas = document.getElementById('movingPizzas1');
+
+    // 相比于一个一个地将 html 添加上 DOM。我们也有可以一次过更新 DOM 的方法——使用 DocumentFragment
+    var fragment = document.createDocumentFragment();
     for (var i = 0; i < 200; i++) {
         var elem = document.createElement('img');
         elem.className = 'mover';
@@ -574,9 +581,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 有了下面这一行，就初始化了横坐标，并且不用在后面调用updatePositions这个函数了
         elem.style.left = 100 * Math.sin(i % 5) + 'px';
+
+        fragment.appendChild(elem);
         // document.querySelector("#movingPizzas1").appendChild(elem);
-        document.getElementById('movingPizzas1').appendChild(elem);
+        // document.getElementById('movingPizzas1').appendChild(elem);
     }
+    movingPizzas.appendChild(fragment);
+
     // 在这里执行下面这个函数，会造成一次reflow，因为已经生成好的元素，你又去改了人家的横坐标
     // updatePositions();
 });
