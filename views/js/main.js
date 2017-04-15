@@ -422,15 +422,19 @@ var resizePizzas = function(size) {
 
     // 改变滑窗前披萨的尺寸值
     function changeSliderLabel(size) {
+        // 在Chrome中，querySelector效率比getElementById差60%多，而在safari中甚至要差98%！
         switch (size) {
             case "1":
-                document.querySelector("#pizzaSize").innerHTML = "Small";
+                // document.querySelector("#pizzaSize").innerHTML = "Small";
+                document.getElementById('pizzaSize').innerHTML = "Small";
                 return;
             case "2":
-                document.querySelector("#pizzaSize").innerHTML = "Medium";
+                // document.querySelector("#pizzaSize").innerHTML = "Medium";
+                document.getElementById('pizzaSize').innerHTML = "Medium";
                 return;
             case "3":
-                document.querySelector("#pizzaSize").innerHTML = "Large";
+                // document.querySelector("#pizzaSize").innerHTML = "Large";
+                document.getElementById('pizzaSize').innerHTML = "Large";
                 return;
             default:
                 console.log("bug in changeSliderLabel");
@@ -442,7 +446,8 @@ var resizePizzas = function(size) {
     // 返回不同的尺寸以将披萨元素由一个尺寸改成另一个尺寸。由changePizzaSlices(size)函数调用
     function determineDx(elem, size) {
         var oldWidth = elem.offsetWidth;
-        var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
+        // var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
+        var windowWidth = document.getElementById("randomPizzas").offsetWidth;
         var oldSize = oldWidth / windowWidth;
 
         // 将值转成百分比宽度
@@ -468,7 +473,8 @@ var resizePizzas = function(size) {
     // 遍历披萨的元素并改变它们的宽度
     function changePizzaSizes(size) {
         // 下面这几个值在循环中都是不会变的，因此提前拿出来，避免造成 FSL
-        var allPizzaContainers = document.querySelectorAll(".randomPizzaContainer");
+        // var allPizzaContainers = document.querySelectorAll(".randomPizzaContainer");
+        var allPizzaContainers = document.getELementsByClassName('randomPizzaContainer');
         var pizzaContainerWidth = allPizzaContainers[0].offsetWidth;
         var dx = determineDx(allPizzaContainers[0], size);
         var newwidth = (pizzaContainerWidth + dx) + 'px';
@@ -522,7 +528,8 @@ function updatePositions() {
     frame++;
     window.performance.mark("mark_start_frame");
 
-    var items = document.querySelectorAll('.mover');
+    // var items = document.querySelectorAll('.mover');
+    var items = document.getELementsByClassName('mover');
 
     //这个值在下面的循环中不会有变化，因此提前求出来，避免造成 FSL
     var bodyScrollTop = document.body.scrollTop;
@@ -559,7 +566,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 有了下面这一行，就初始化了横坐标，并且不用在后面调用updatePositions这个函数了
         elem.style.left = 100 * Math.sin(i % 5) + 'px';
-        document.querySelector("#movingPizzas1").appendChild(elem);
+        // document.querySelector("#movingPizzas1").appendChild(elem);
+        document.getElementById('movingPizzas1').appendChild(elem);
     }
     // 在这里执行下面这个函数，会造成一次reflow，因为已经生成好的元素，你又去改了人家的横坐标
     // updatePositions();
