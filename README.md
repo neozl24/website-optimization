@@ -50,6 +50,10 @@ A secure public URL will be created although it seems a little bit strange and y
 * In the very last of the js file, when `addEventListener` of `DOMContentLoaded`, I cancel the `updatePositions()` function to avoid the reflow of the page. To compensate that, I evaluate the `elem.style.left` in the for loop.
 * Inside the `updatePositions()` function, I get the value of `document.body.scrollTop` and assign it to a new variable `bodyScrollTop`, for recalculating the unchanged layout value in for-loop is such a waste and will even cause **Forced Synchronized Layout(FSL)**, which is a bad thing in browser rendering work.
 * For the same reason in `changePizzaSizes()` function, I move the heavy repeating work outside the for-loop and once again, I help the browser get rid of **FSL** nightmare.
+* Change `querySelector()` to `getElementById()` because the latter method is much more efficient
+* Inside the `updatePositions()` function, I use `translateX()` instead of changing `style.left` to avoid triggering layout
+* Take `requestAnimationFrame()` as the callback function of **scroll** event
+* When appending Dom nodes, append them to **DocumentFragment** before, for this won't cause html **reflow**
 
 
 ### Authors
